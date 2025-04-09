@@ -241,13 +241,12 @@ export default function VeganAnalyzer() {
   }, []);
 
   return (
-    <div className="min-h-screen bg-gradient-to-b from-green-100 to-green-200 py-12 px-4 sm:px-6 lg:px-8">
+    <div className="min-h-screen bg-gradient-to-b from-gray-50 to-gray-100 py-12 px-4 sm:px-6 lg:px-8">
       <div className="max-w-3xl mx-auto">
         <div className="text-center mb-12">
-          <h1 className="text-5xl font-bold text-green-800 mb-3">
+          <h1 className="text-5xl font-bold text-gray-800 font-['Poppins']">
             É vegano? 🌱
           </h1>
-          <p className="text-green-700 text-lg">Tire uma foto ou envie uma imagem para verificar se é vegano</p>
         </div>
         
         <div className="space-y-8">
@@ -255,13 +254,13 @@ export default function VeganAnalyzer() {
             <div className="flex space-x-4">
               <button
                 onClick={handleCameraButtonClick}
-                className="bg-green-600 hover:bg-green-700 text-white px-8 py-3 rounded-full transition-all duration-200 shadow-md hover:shadow-lg flex items-center space-x-2"
+                className="bg-emerald-600 hover:bg-emerald-700 text-white px-8 py-3 rounded-full transition-all duration-200 shadow-md hover:shadow-lg flex items-center space-x-2 font-['Poppins']"
               >
-                <span>{showCamera ? 'Parar Câmera' : 'Usar Câmera'}</span>
+                <span>{showCamera ? 'Parar' : 'Câmera'}</span>
                 {showCamera ? '📷' : '📸'}
               </button>
-              <label className="bg-green-500 hover:bg-green-600 text-white px-8 py-3 rounded-full transition-all duration-200 shadow-md hover:shadow-lg cursor-pointer flex items-center space-x-2">
-                <span>Enviar Imagem</span>
+              <label className="bg-emerald-600 hover:bg-emerald-700 text-white px-8 py-3 rounded-full transition-all duration-200 shadow-md hover:shadow-lg cursor-pointer flex items-center space-x-2 font-['Poppins']">
+                <span>Enviar</span>
                 <span>📁</span>
                 <input
                   type="file"
@@ -295,21 +294,21 @@ export default function VeganAnalyzer() {
                 <div className="absolute bottom-0 left-0 right-0 p-4 bg-black bg-opacity-50 flex justify-center space-x-4">
                   <button
                     onClick={capturePhoto}
-                    className="bg-green-600 hover:bg-green-700 text-white px-8 py-3 rounded-full transition-all duration-200 shadow-md hover:shadow-lg flex items-center space-x-2"
+                    className="bg-emerald-600 hover:bg-emerald-700 text-white px-8 py-3 rounded-full transition-all duration-200 shadow-md hover:shadow-lg flex items-center space-x-2"
                   >
                     <span>Tirar Foto</span>
                     <span>📸</span>
                   </button>
                   <button
                     onClick={toggleFullscreen}
-                    className="bg-white hover:bg-gray-100 text-gray-800 px-8 py-3 rounded-full transition-all duration-200 shadow-md hover:shadow-lg flex items-center space-x-2"
+                    className="bg-emerald-600 hover:bg-emerald-700 text-white px-8 py-3 rounded-full transition-all duration-200 shadow-md hover:shadow-lg flex items-center space-x-2"
                   >
                     <span>{isFullscreen ? 'Sair da Tela Cheia' : 'Tela Cheia'}</span>
                     <span>{isFullscreen ? '⤢' : '⤡'}</span>
                   </button>
                   <button
                     onClick={stopCamera}
-                    className="bg-red-500 hover:bg-red-600 text-white px-8 py-3 rounded-full transition-all duration-200 shadow-md hover:shadow-lg flex items-center space-x-2"
+                    className="bg-emerald-600 hover:bg-emerald-700 text-white px-8 py-3 rounded-full transition-all duration-200 shadow-md hover:shadow-lg flex items-center space-x-2"
                   >
                     <span>Cancelar</span>
                     <span>✖</span>
@@ -332,7 +331,7 @@ export default function VeganAnalyzer() {
               <button
                 onClick={analyzeImage}
                 disabled={loading}
-                className="bg-green-600 hover:bg-green-700 text-white px-8 py-3 rounded-full transition-all duration-200 shadow-md hover:shadow-lg disabled:opacity-50 disabled:cursor-not-allowed flex items-center space-x-2"
+                className="bg-emerald-600 hover:bg-emerald-700 text-white px-8 py-3 rounded-full transition-all duration-200 shadow-md hover:shadow-lg disabled:opacity-50 disabled:cursor-not-allowed flex items-center space-x-2"
               >
                 <span>{loading ? 'Analisando...' : 'Analisar Produto'}</span>
                 <span>{loading ? '🔍' : '🌱'}</span>
@@ -347,11 +346,11 @@ export default function VeganAnalyzer() {
           )}
 
           {result && (
-            <div className="mt-8 p-6 bg-green-50/80 backdrop-blur-sm rounded-2xl border border-green-200 shadow-sm">
-              <h2 className="text-2xl font-semibold text-green-800 mb-4 flex items-center">
+            <div className="mt-8 p-6 bg-white/80 backdrop-blur-sm rounded-2xl border border-gray-200 shadow-sm">
+              <h2 className="text-2xl font-semibold text-gray-800 mb-4 flex items-center">
                 Resultado da Análise 🌱
               </h2>
-              <p className="text-green-700 whitespace-pre-wrap leading-relaxed">
+              <p className="text-gray-700 whitespace-pre-wrap leading-relaxed">
                 {result}
               </p>
             </div>
