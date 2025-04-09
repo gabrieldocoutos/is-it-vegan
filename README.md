@@ -1,24 +1,67 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# Is It Vegan? 🌱
 
-## Getting Started
+A vibe coding experiment to analyze products and determine if they're vegan using AI.
 
-First, run the development server:
+## What is Vibe Coding? 🎨
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
-```
+Vibe coding is a development approach that prioritizes the experience and feeling of the code, not just its functionality. It's about:
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+- Creating with intuition and natural flow
+- Focusing on user experience and aesthetics
+- Developing with a greater purpose in mind
+- Maintaining a pleasant and inspiring development environment
+- Valuing both the process and the end result
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+In this project, we apply vibe coding to create a pleasant and intuitive experience for checking if products are vegan, while maintaining clean code and a friendly interface.
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+## Technologies Used
+
+- Next.js
+- TypeScript
+- Tailwind CSS
+- OpenAI Vision API
+- React
+
+## How to Use
+
+1. Clone the repository
+2. Install dependencies:
+   ```bash
+   npm install
+   ```
+3. Configure environment variables:
+   ```bash
+   cp .env.example .env.local
+   ```
+   Add your OpenAI key to the `.env.local` file
+
+4. Start the development server:
+   ```bash
+   npm run dev
+   ```
+
+5. Visit [http://localhost:3000](http://localhost:3000)
+
+## Features
+
+- 📸 Camera photo capture
+- 📁 Image upload
+- 🤖 Automatic ingredient analysis
+- 🌱 Vegan compatibility verification
+- 📱 Responsive and friendly interface
+
+## Contributing
+
+This is an experimental project that combines technology and purpose. Feel free to contribute with:
+
+- New features
+- Interface improvements
+- Bug fixes
+- Ideas to make the experience even more pleasant
+
+## License
+
+MIT
 
 ## Learn More
 
