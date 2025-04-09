@@ -40,7 +40,7 @@ export default function VeganAnalyzer() {
       
       // First check if we have media devices
       if (!navigator.mediaDevices || !navigator.mediaDevices.getUserMedia) {
-        throw new Error('Camera API not available in this browser');
+        throw new Error('API de câmera não disponível neste navegador');
       }
 
       // Request camera access with specific constraints
@@ -52,12 +52,12 @@ export default function VeganAnalyzer() {
         }
       };
 
-      console.log('Requesting camera access with constraints:', constraints);
+      console.log('Solicitando acesso à câmera com restrições:', constraints);
       const stream = await navigator.mediaDevices.getUserMedia(constraints);
-      console.log('Camera stream obtained:', stream);
+      console.log('Stream da câmera obtido:', stream);
       
       if (!videoRef.current) {
-        throw new Error('Video element not found');
+        throw new Error('Elemento de vídeo não encontrado');
       }
 
       const video = videoRef.current;
@@ -74,18 +74,18 @@ export default function VeganAnalyzer() {
       });
 
       streamRef.current = stream;
-      console.log('Camera started successfully');
+      console.log('Câmera iniciada com sucesso');
     } catch (err) {
       const error = err as Error;
-      console.error('Camera error:', error);
-      let errorMessage = 'Could not access camera. ';
+      console.error('Erro na câmera:', error);
+      let errorMessage = 'Não foi possível acessar a câmera. ';
       
       if (error.name === 'NotAllowedError') {
-        errorMessage += 'Please make sure you have granted camera permissions.';
+        errorMessage += 'Por favor, certifique-se de que você concedeu permissões para a câmera.';
       } else if (error.name === 'NotFoundError') {
-        errorMessage += 'No camera found on your device.';
+        errorMessage += 'Nenhuma câmera encontrada no seu dispositivo.';
       } else if (error.name === 'NotReadableError') {
-        errorMessage += 'Camera is already in use by another application.';
+        errorMessage += 'A câmera já está em uso por outro aplicativo.';
       } else {
         errorMessage += error.message;
       }
@@ -120,7 +120,7 @@ export default function VeganAnalyzer() {
 
   const capturePhoto = () => {
     if (!videoRef.current || !streamRef.current) {
-      setError('Camera not ready');
+      setError('Câmera não está pronta');
       return;
     }
 
@@ -132,18 +132,18 @@ export default function VeganAnalyzer() {
       const ctx = canvas.getContext('2d');
       
       if (!ctx) {
-        throw new Error('Could not get canvas context');
+        throw new Error('Não foi possível obter o contexto do canvas');
       }
 
       ctx.drawImage(video, 0, 0);
       const imageData = canvas.toDataURL('image/png');
-      console.log('Photo captured successfully');
+      console.log('Foto capturada com sucesso');
       setImage(imageData);
       stopCamera();
     } catch (err) {
       const error = err as Error;
-      console.error('Capture error:', error);
-      setError('Failed to capture photo: ' + error.message);
+      console.error('Erro na captura:', error);
+      setError('Falha ao capturar foto: ' + error.message);
     }
   };
 
@@ -151,12 +151,12 @@ export default function VeganAnalyzer() {
     const file = e.target.files?.[0];
     if (file) {
       if (!file.type.startsWith('image/')) {
-        setError('Please upload an image file');
+        setError('Por favor, envie um arquivo de imagem');
         return;
       }
 
       if (!SUPPORTED_FORMATS.includes(file.type)) {
-        setError(`Unsupported image format. Please use one of: ${SUPPORTED_FORMATS.join(', ')}`);
+        setError(`Formato de imagem não suportado. Por favor, use um dos seguintes: ${SUPPORTED_FORMATS.join(', ')}`);
         return;
       }
 
@@ -201,12 +201,12 @@ export default function VeganAnalyzer() {
       const data = await response.json();
 
       if (!response.ok) {
-        throw new Error(data.error || 'Failed to analyze image');
+        throw new Error(data.error || 'Falha ao analisar a imagem');
       }
 
       setResult(data.result);
     } catch (err) {
-      setError(err instanceof Error ? err.message : 'An error occurred');
+      setError(err instanceof Error ? err.message : 'Ocorreu um erro');
     } finally {
       setLoading(false);
     }
