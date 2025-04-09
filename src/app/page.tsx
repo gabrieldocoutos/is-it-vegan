@@ -5,19 +5,6 @@ import Image from 'next/image';
 
 const SUPPORTED_FORMATS = ['image/png', 'image/jpeg', 'image/gif', 'image/webp'];
 
-// Register service worker
-if (typeof window !== 'undefined' && 'serviceWorker' in navigator) {
-  window.addEventListener('load', () => {
-    navigator.serviceWorker.register('/sw.js')
-      .then(() => {
-        console.log('ServiceWorker registration successful');
-      })
-      .catch((err) => {
-        console.log('ServiceWorker registration failed: ', err);
-      });
-  });
-}
-
 export default function VeganAnalyzer() {
   const [image, setImage] = useState<string | null>(null);
   const [loading, setLoading] = useState(false);
@@ -25,7 +12,6 @@ export default function VeganAnalyzer() {
   const [error, setError] = useState<string | null>(null);
   const [showCamera, setShowCamera] = useState(false);
   const [cameraError, setCameraError] = useState<string | null>(null);
-  const [isFullscreen, setIsFullscreen] = useState(false);
   const videoRef = useRef<HTMLVideoElement>(null);
   const streamRef = useRef<MediaStream | null>(null);
   const containerRef = useRef<HTMLDivElement>(null);
@@ -226,33 +212,6 @@ export default function VeganAnalyzer() {
     }
   };
 
-  const toggleFullscreen = async () => {
-    if (!containerRef.current) return;
-
-    try {
-      if (!document.fullscreenElement) {
-        await containerRef.current.requestFullscreen();
-        setIsFullscreen(true);
-      } else {
-        await document.exitFullscreen();
-        setIsFullscreen(false);
-      }
-    } catch (err) {
-      console.error('Error toggling fullscreen:', err);
-    }
-  };
-
-  useEffect(() => {
-    const handleFullscreenChange = () => {
-      setIsFullscreen(!!document.fullscreenElement);
-    };
-
-    document.addEventListener('fullscreenchange', handleFullscreenChange);
-    return () => {
-      document.removeEventListener('fullscreenchange', handleFullscreenChange);
-    };
-  }, []);
-
   return (
     <div className="min-h-screen bg-gradient-to-b from-gray-50 to-gray-100 py-12 px-4 sm:px-6 lg:px-8">
       <div className="max-w-3xl mx-auto">
@@ -304,7 +263,7 @@ export default function VeganAnalyzer() {
                   muted
                   className="w-full h-full object-cover"
                 />
-                <div className="absolute bottom-0 left-0 right-0 p-4 bg-black bg-opacity-50 flex justify-center space-x-4">
+                <div className="absolute bottom-0 left-0 right-0 p-4 bg-black bg-opacity-50 flex flex-col items-center space-y-4">
                   <button
                     onClick={capturePhoto}
                     className="bg-emerald-600 hover:bg-emerald-700 text-white px-8 py-3 rounded-full transition-all duration-200 flex items-center space-x-2"
@@ -313,15 +272,8 @@ export default function VeganAnalyzer() {
                     <span>📸</span>
                   </button>
                   <button
-                    onClick={toggleFullscreen}
-                    className="bg-emerald-600 hover:bg-emerald-700 text-white px-8 py-3 rounded-full transition-all duration-200 flex items-center space-x-2"
-                  >
-                    <span>{isFullscreen ? 'Sair da Tela Cheia' : 'Tela Cheia'}</span>
-                    <span>{isFullscreen ? '⤢' : '⤡'}</span>
-                  </button>
-                  <button
                     onClick={stopCamera}
-                    className="bg-emerald-600 hover:bg-emerald-700 text-white px-8 py-3 rounded-full transition-all duration-200 flex items-center space-x-2"
+                    className="bg-red-400 hover:bg-red-500 text-white px-8 py-3 rounded-full transition-all duration-200 flex items-center space-x-2"
                   >
                     <span>Cancelar</span>
                     <span>✖</span>
