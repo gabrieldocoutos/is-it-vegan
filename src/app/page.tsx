@@ -9,7 +9,7 @@ const SUPPORTED_FORMATS = ['image/png', 'image/jpeg', 'image/gif', 'image/webp']
 if (typeof window !== 'undefined' && 'serviceWorker' in navigator) {
   window.addEventListener('load', () => {
     navigator.serviceWorker.register('/sw.js')
-      .then((registration) => {
+      .then(() => {
         console.log('ServiceWorker registration successful');
       })
       .catch((err) => {
