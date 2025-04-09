@@ -12,8 +12,10 @@ export default function VeganAnalyzer() {
   const [error, setError] = useState<string | null>(null);
   const [showCamera, setShowCamera] = useState(false);
   const [cameraError, setCameraError] = useState<string | null>(null);
+  const [isFullscreen, setIsFullscreen] = useState(false);
   const videoRef = useRef<HTMLVideoElement>(null);
   const streamRef = useRef<MediaStream | null>(null);
+  const containerRef = useRef<HTMLDivElement>(null);
 
   // Initialize camera when component mounts
   useEffect(() => {
@@ -211,100 +213,149 @@ export default function VeganAnalyzer() {
     }
   };
 
+  const toggleFullscreen = async () => {
+    if (!containerRef.current) return;
+
+    try {
+      if (!document.fullscreenElement) {
+        await containerRef.current.requestFullscreen();
+        setIsFullscreen(true);
+      } else {
+        await document.exitFullscreen();
+        setIsFullscreen(false);
+      }
+    } catch (err) {
+      console.error('Error toggling fullscreen:', err);
+    }
+  };
+
+  useEffect(() => {
+    const handleFullscreenChange = () => {
+      setIsFullscreen(!!document.fullscreenElement);
+    };
+
+    document.addEventListener('fullscreenchange', handleFullscreenChange);
+    return () => {
+      document.removeEventListener('fullscreenchange', handleFullscreenChange);
+    };
+  }, []);
+
   return (
-    <div className="min-h-screen bg-gray-100 py-12 px-4 sm:px-6 lg:px-8">
+    <div className="min-h-screen bg-gradient-to-b from-green-100 to-green-200 py-12 px-4 sm:px-6 lg:px-8">
       <div className="max-w-3xl mx-auto">
-        <div className="bg-white rounded-lg shadow-md p-6">
-          <h1 className="text-3xl font-bold text-center mb-8">Vegan Product Analyzer</h1>
-          
-          <div className="space-y-6">
-            <div className="flex flex-col items-center space-y-4">
-              <div className="flex space-x-4">
-                <button
-                  onClick={handleCameraButtonClick}
-                  className="bg-green-600 text-white px-6 py-2 rounded-lg hover:bg-green-700"
-                >
-                  {showCamera ? 'Stop Camera' : 'Use Camera'}
-                </button>
-                <label className="bg-blue-600 text-white px-6 py-2 rounded-lg hover:bg-blue-700 cursor-pointer">
-                  Upload Image
-                  <input
-                    type="file"
-                    accept="image/png,image/jpeg,image/gif,image/webp"
-                    onChange={handleImageUpload}
-                    className="hidden"
-                  />
-                </label>
-              </div>
+        <div className="text-center mb-12">
+          <h1 className="text-5xl font-bold text-green-800 mb-3">
+            É vegano? 🌱
+          </h1>
+          <p className="text-green-700 text-lg">Tire uma foto ou envie uma imagem para verificar se é vegano</p>
+        </div>
+        
+        <div className="space-y-8">
+          <div className="flex flex-col items-center space-y-4">
+            <div className="flex space-x-4">
+              <button
+                onClick={handleCameraButtonClick}
+                className="bg-green-600 hover:bg-green-700 text-white px-8 py-3 rounded-full transition-all duration-200 shadow-md hover:shadow-lg flex items-center space-x-2"
+              >
+                <span>{showCamera ? 'Parar Câmera' : 'Usar Câmera'}</span>
+                {showCamera ? '📷' : '📸'}
+              </button>
+              <label className="bg-green-500 hover:bg-green-600 text-white px-8 py-3 rounded-full transition-all duration-200 shadow-md hover:shadow-lg cursor-pointer flex items-center space-x-2">
+                <span>Enviar Imagem</span>
+                <span>📁</span>
+                <input
+                  type="file"
+                  accept="image/png,image/jpeg,image/gif,image/webp"
+                  onChange={handleImageUpload}
+                  className="hidden"
+                />
+              </label>
             </div>
+          </div>
 
-            {cameraError && (
-              <div className="text-red-600 text-center p-4 bg-red-50 rounded-lg">
-                {cameraError}
-              </div>
-            )}
+          {cameraError && (
+            <div className="text-red-600 text-center p-4 bg-red-50 rounded-xl border border-red-200">
+              {cameraError}
+            </div>
+          )}
 
-            {showCamera && (
-              <div className="flex flex-col items-center space-y-4">
-                <div className="relative w-full max-w-md aspect-video bg-black rounded-lg overflow-hidden">
-                  <video
-                    ref={videoRef}
-                    autoPlay
-                    playsInline
-                    muted
-                    className="w-full h-full object-cover"
-                  />
-                </div>
-                <div className="flex space-x-4">
+          {showCamera && (
+            <div 
+              ref={containerRef}
+              className="fixed inset-0 bg-black z-50"
+            >
+              <div className="relative w-full h-full">
+                <video
+                  ref={videoRef}
+                  autoPlay
+                  playsInline
+                  muted
+                  className="w-full h-full object-cover"
+                />
+                <div className="absolute bottom-0 left-0 right-0 p-4 bg-black bg-opacity-50 flex justify-center space-x-4">
                   <button
                     onClick={capturePhoto}
-                    className="bg-blue-600 text-white px-6 py-2 rounded-lg hover:bg-blue-700"
+                    className="bg-green-600 hover:bg-green-700 text-white px-8 py-3 rounded-full transition-all duration-200 shadow-md hover:shadow-lg flex items-center space-x-2"
                   >
-                    Take Photo
+                    <span>Tirar Foto</span>
+                    <span>📸</span>
+                  </button>
+                  <button
+                    onClick={toggleFullscreen}
+                    className="bg-white hover:bg-gray-100 text-gray-800 px-8 py-3 rounded-full transition-all duration-200 shadow-md hover:shadow-lg flex items-center space-x-2"
+                  >
+                    <span>{isFullscreen ? 'Sair da Tela Cheia' : 'Tela Cheia'}</span>
+                    <span>{isFullscreen ? '⤢' : '⤡'}</span>
                   </button>
                   <button
                     onClick={stopCamera}
-                    className="bg-red-600 text-white px-6 py-2 rounded-lg hover:bg-red-700"
+                    className="bg-red-500 hover:bg-red-600 text-white px-8 py-3 rounded-full transition-all duration-200 shadow-md hover:shadow-lg flex items-center space-x-2"
                   >
-                    Cancel
+                    <span>Cancelar</span>
+                    <span>✖</span>
                   </button>
                 </div>
               </div>
-            )}
+            </div>
+          )}
 
-            {image && !showCamera && (
-              <div className="flex flex-col items-center">
-                <div className="relative w-64 h-64 mb-4">
-                  <Image
-                    src={image}
-                    alt="Uploaded product"
-                    fill
-                    className="object-contain rounded-lg"
-                  />
-                </div>
-                <button
-                  onClick={analyzeImage}
-                  disabled={loading}
-                  className="bg-blue-600 text-white px-6 py-2 rounded-lg hover:bg-blue-700 disabled:opacity-50"
-                >
-                  {loading ? 'Analyzing...' : 'Analyze Product'}
-                </button>
+          {image && !showCamera && (
+            <div className="flex flex-col items-center space-y-6">
+              <div className="relative w-72 h-72 mb-4 rounded-2xl overflow-hidden shadow-xl">
+                <Image
+                  src={image}
+                  alt="Produto enviado"
+                  fill
+                  className="object-cover"
+                />
               </div>
-            )}
+              <button
+                onClick={analyzeImage}
+                disabled={loading}
+                className="bg-green-600 hover:bg-green-700 text-white px-8 py-3 rounded-full transition-all duration-200 shadow-md hover:shadow-lg disabled:opacity-50 disabled:cursor-not-allowed flex items-center space-x-2"
+              >
+                <span>{loading ? 'Analisando...' : 'Analisar Produto'}</span>
+                <span>{loading ? '🔍' : '🌱'}</span>
+              </button>
+            </div>
+          )}
 
-            {error && (
-              <div className="text-red-600 text-center">
-                {error}
-              </div>
-            )}
+          {error && (
+            <div className="text-red-600 text-center p-4 bg-red-50 rounded-xl border border-red-200">
+              {error}
+            </div>
+          )}
 
-            {result && (
-              <div className="mt-6 p-4 bg-gray-50 rounded-lg">
-                <h2 className="text-xl font-semibold mb-2">Analysis Result:</h2>
-                <p className="whitespace-pre-wrap">{result}</p>
-              </div>
-            )}
-          </div>
+          {result && (
+            <div className="mt-8 p-6 bg-green-50/80 backdrop-blur-sm rounded-2xl border border-green-200 shadow-sm">
+              <h2 className="text-2xl font-semibold text-green-800 mb-4 flex items-center">
+                Resultado da Análise 🌱
+              </h2>
+              <p className="text-green-700 whitespace-pre-wrap leading-relaxed">
+                {result}
+              </p>
+            </div>
+          )}
         </div>
       </div>
     </div>
