@@ -4,15 +4,15 @@ A vibe coding experiment to analyze products and determine if they're vegan usin
 
 ## What is Vibe Coding? 🎨
 
-Vibe coding is a development approach that prioritizes the experience and feeling of the code, not just its functionality. It's about:
+Vibe coding in Cursor is about leveraging AI to enhance the development process through effective prompting. It's about:
 
-- Creating with intuition and natural flow
-- Focusing on user experience and aesthetics
-- Developing with a greater purpose in mind
-- Maintaining a pleasant and inspiring development environment
-- Valuing both the process and the end result
+- Writing clear, specific prompts that guide the AI to understand your intent
+- Iterating on code with natural language feedback
+- Maintaining a conversational flow with the AI assistant
+- Using the AI to explore different approaches and solutions
+- Balancing AI assistance with human judgment and creativity
 
-In this project, we apply vibe coding to create a pleasant and intuitive experience for checking if products are vegan, while maintaining clean code and a friendly interface.
+In this project, we use vibe coding to create an intuitive product analyzer, focusing on clear communication with the AI to build a user-friendly interface and reliable analysis system.
 
 ## Technologies Used
 
@@ -62,18 +62,3 @@ This is an experimental project that combines technology and purpose. Feel free 
 ## License
 
 MIT
-
-## Learn More
-
-To learn more about Next.js, take a look at the following resources:
-
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
-
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
-
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
